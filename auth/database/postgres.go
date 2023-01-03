@@ -3,7 +3,7 @@ package database
 import (
 	"log"
 
-	"github.com/leoantony72/twitter-backend/auth/internal/core/domain"
+	"github.com/leoantony72/twitter-backend/auth/internal/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -17,7 +17,7 @@ func StartPostgres() *gorm.DB {
 		log.Fatalln(err)
 	}
 
-	db.AutoMigrate(&domain.User{})
+	db.AutoMigrate(&model.User{})
 
 	return db
 }
