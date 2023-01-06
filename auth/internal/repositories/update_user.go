@@ -3,7 +3,7 @@ package repositories
 import "github.com/leoantony72/twitter-backend/auth/internal/model"
 
 func (u *UserPostgresRepo) Update(user model.User) error {
-	result := u.db.UpdateColumns(&user)
+	result := u.db.UpdateColumns(&user.Username)
 	if result.Error != nil {
 		return result.Error
 	}
