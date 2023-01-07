@@ -1,0 +1,9 @@
+version: "3.6"
+services:
+  lb:
+    container_name: "tw_lb"
+    restart: always
+    build:
+      context: ./haproxy
+    ports:
+      - 80:80

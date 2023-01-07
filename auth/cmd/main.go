@@ -15,18 +15,6 @@ func main() {
 	r := gin.Default()
 	//Database connection
 	db := database.StartPostgres()
-
-	// r.Use(cors.New(cors.Config{
-	// 	AllowOrigins:     []string{"*"},
-	// 	AllowMethods:     []string{"*"},
-	// 	AllowHeaders:     []string{"Origin"},
-	// 	ExposeHeaders:    []string{"Content-Length"},
-	// 	AllowCredentials: true,
-	// 	AllowOriginFunc: func(origin string) bool {
-	// 		return origin == "https://github.com"
-	// 	},
-	// 	MaxAge: 12 * time.Hour,
-	// }))
 	//give database to repository
 	repo := repositories.NewUserPostgresRepo(db)
 
