@@ -12,10 +12,14 @@ type UserHandler struct {
 func NewUserHandler(u ports.UserUseCase, r *gin.Engine) *UserHandler {
 	handler := &UserHandler{userUseCase: u}
 
-	r.GET("/user", handler.GetById)
-	r.PUT("/user", handler.UpdateUser)
-	r.DELETE("/user", handler.DeleteUser)
-	r.POST("/signup", handler.CreateUser)
-	r.POST("/login", handler.LoginUser)
+	auth := r.Group("/auth")
+	{
+		auth.GET("/user", handler.GetById)
+		auth.PUT("/user", handler.UpdateUser)
+		auth.DELETE("/user", handler.DeleteUser)
+		auth.POST("/signup", handler.CreateUser)
+		auth.POST("/login", handler.LoginUser)
+	}
+
 	return handler
 }

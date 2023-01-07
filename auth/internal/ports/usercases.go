@@ -7,5 +7,6 @@ type UserUseCase interface {
 	Update(user model.User) error
 	Delete(id string) error
 	GetUserbyId(id string) (*model.User, error)
-	Login(username string, password string) error
+	Login(username string, password string) (string, string, error)
+	AddToken(username,token string) error
 }

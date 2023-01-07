@@ -4,8 +4,6 @@ import (
 	"crypto/rand"
 	"crypto/subtle"
 	"encoding/base64"
-	"fmt"
-
 	"golang.org/x/crypto/argon2"
 )
 
@@ -62,8 +60,8 @@ func VerifyPassword(password, encodedHash, salt string) (bool, error) {
 	Salt, _ := base64.RawStdEncoding.Strict().DecodeString(salt)
 	passwordHash := argon2.IDKey([]byte(password), Salt, p.iterations, p.memory, p.parallelism, p.keyLength)
 
-	T := base64.RawStdEncoding.EncodeToString(passwordHash)
-	fmt.Printf("INPUT: %v\n INPUT_HASH:%s\n DBPASS: %s\n", password, T, encodedHash)
+	// T := base64.RawStdEncoding.EncodeToString(passwordHash)
+	// fmt.Printf("INPUT: %v\n INPUT_HASH:%s\n DBPASS: %s\n", password, T, encodedHash)
 	if subtle.ConstantTimeCompare(passwordHash, Hash) == 1 {
 		return true, nil
 	}
