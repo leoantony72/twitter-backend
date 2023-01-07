@@ -20,6 +20,11 @@ func NewUserHandler(u ports.UserUseCase, r *gin.Engine) *UserHandler {
 		auth.POST("/signup", handler.CreateUser)
 		auth.POST("/login", handler.LoginUser)
 	}
+	protect := r.Group("/admin")
+	{
+		protect.GET("/",handler.Test)
+	}
+
 
 	return handler
 }
