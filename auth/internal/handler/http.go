@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/leoantony72/twitter-backend/auth/internal/middleware"
 	"github.com/leoantony72/twitter-backend/auth/internal/ports"
 )
 
@@ -19,12 +20,11 @@ func NewUserHandler(u ports.UserUseCase, r *gin.Engine) *UserHandler {
 		auth.DELETE("/user", handler.DeleteUser)
 		auth.POST("/signup", handler.CreateUser)
 		auth.POST("/login", handler.LoginUser)
+		protect := auth.Group("/admin").Use(middleware.Authorization())
+		{
+			protect.GET("/", handler.Test)
+		}
 	}
-	protect := r.Group("/admin")
-	{
-		protect.GET("/",handler.Test)
-	}
-
 
 	return handler
 }
