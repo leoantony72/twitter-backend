@@ -10,7 +10,7 @@ type UserHandler struct {
 	userUseCase ports.UserUseCase
 }
 
-func NewUserHandler(u ports.UserUseCase, r *gin.Engine) *UserHandler {
+func NewUserHandler(u ports.UserUseCase, r *gin.Engine, m *middleware.UserMiddleware) *UserHandler {
 	handler := &UserHandler{userUseCase: u}
 
 	auth := r.Group("/auth")
@@ -20,7 +20,7 @@ func NewUserHandler(u ports.UserUseCase, r *gin.Engine) *UserHandler {
 		auth.DELETE("/user", handler.DeleteUser)
 		auth.POST("/signup", handler.CreateUser)
 		auth.POST("/login", handler.LoginUser)
-		protect := auth.Group("/admin").Use(middleware.Authorization())
+		protect := auth.Group("/admin").Use(m.Authorization())
 		{
 			protect.GET("/", handler.Test)
 		}

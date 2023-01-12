@@ -8,5 +8,6 @@ type UserRepository interface {
 	Delete(id string) error
 	GetUserbyId(id string) (*model.User, error)
 	Login(username string) (*model.User, error)
-	AddToken(username,token string) error
+	AddToken(username, token string) error
+	GetToken(refreshToken string) (model.User, error)
 }

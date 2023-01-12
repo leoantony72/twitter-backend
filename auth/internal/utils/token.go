@@ -22,7 +22,7 @@ func GenerateAccessToken(name, Id string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
 		"name": name,
 		"ID":   Id,
-		"exp":  time.Now().Add(30 * time.Minute).Unix(),
+		"exp":  time.Now().Add(15 * time.Second).Unix(),
 	})
 
 	tokenString, err := token.SignedString(rsaprivateKey)

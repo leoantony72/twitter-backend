@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/leoantony72/twitter-backend/auth/database"
 	"github.com/leoantony72/twitter-backend/auth/internal/handler"
+	"github.com/leoantony72/twitter-backend/auth/internal/middleware"
 	"github.com/leoantony72/twitter-backend/auth/internal/repositories"
 	"github.com/leoantony72/twitter-backend/auth/internal/services"
 )
@@ -23,7 +24,9 @@ func main() {
 
 	// pkg.Keys()
 
-	handler.NewUserHandler(service, r)
+	middleware := middleware.NewUserMiddleware(service)
+
+	handler.NewUserHandler(service, r,middleware)
 
 	r.Run(":8080")
 }
