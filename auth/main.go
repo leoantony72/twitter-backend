@@ -49,7 +49,7 @@ func keys() {
 		Type:  "PUBLIC KEY",
 		Bytes: publicKeyBytes,
 	}
-	publicPem, err := os.Create("public.pem")
+	publicPem, err := os.Create("../public.pem")
 	if err != nil {
 		fmt.Printf("error when create public.pem: %s \n", err)
 		os.Exit(1)

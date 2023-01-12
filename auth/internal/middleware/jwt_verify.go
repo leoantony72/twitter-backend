@@ -32,7 +32,7 @@ func Authorization() gin.HandlerFunc {
 
 func ValidateJwt(signedToken string) (*jwt.Token, jwt.MapClaims, error) {
 	// Load the RSA public key from a file
-	publicKey, err := ioutil.ReadFile("public.pem")
+	publicKey, err := ioutil.ReadFile("../public.pem")
 	if err != nil {
 		log.Fatal(err)
 	}
