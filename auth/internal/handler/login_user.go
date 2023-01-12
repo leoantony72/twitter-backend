@@ -27,8 +27,8 @@ func (u *UserHandler) LoginUser(c *gin.Context) {
 		return
 	}
 
-	stringT := utils.ValidateJwt(accessToken)
-	fmt.Printf("%v\n", stringT)
+	// stringT := utils.ValidateJwt(accessToken)
+	// fmt.Printf("%v\n", stringT)
 
 	err = u.userUseCase.AddToken(credentials.Username,refreshToken)
 	if err != nil {
