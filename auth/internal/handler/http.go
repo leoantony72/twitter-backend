@@ -16,8 +16,8 @@ func NewUserHandler(u ports.UserUseCase, r *gin.Engine, m *middleware.UserMiddle
 	auth := r.Group("/auth")
 	{
 		auth.GET("/user", handler.GetById)
-		auth.PUT("/user", handler.UpdateUser)
-		auth.DELETE("/user", handler.DeleteUser)
+		auth.PUT("/user", m.Authorization(), handler.UpdateUser)
+		auth.DELETE("/user", m.Authorization(), handler.DeleteUser)
 		auth.POST("/signup", handler.CreateUser)
 		auth.POST("/login", handler.LoginUser)
 		protect := auth.Group("/admin").Use(m.Authorization())

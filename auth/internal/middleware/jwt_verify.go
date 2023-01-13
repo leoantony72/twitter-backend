@@ -31,7 +31,7 @@ func (u *UserMiddleware) Authorization() gin.HandlerFunc {
 			if err.Error() == "Token is expired" {
 				check, user := u.CheckRefreshToken(refreshToken)
 				if !check {
-					ctx.AbortWithStatusJSON(401, gin.H{"msg": "Please Login hehe"})
+					ctx.AbortWithStatusJSON(401, gin.H{"msg": "Please Login"})
 					return
 				}
 				accessToken, _ := utils.GenerateAccessToken(user.Username, user.Id)
@@ -80,7 +80,5 @@ func ValidateJwt(signedToken string) (*jwt.Token, jwt.MapClaims, error) {
 
 func (u *UserMiddleware) CheckRefreshToken(refreshToken string) (bool, model.User) {
 	user, _ := u.userUseCase.GetToken(refreshToken)
-	fmt.Printf("User token : %v\n", user.Token)
-	fmt.Printf("User token : %v\n", refreshToken)
 	return user.Token == refreshToken, user
 }
