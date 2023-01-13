@@ -18,6 +18,7 @@ func StartPostgres() *gorm.DB {
 	}
 
 	db.AutoMigrate(&model.User{})
+	db.AutoMigrate(&model.User_followers{})
 
 	return db
 }

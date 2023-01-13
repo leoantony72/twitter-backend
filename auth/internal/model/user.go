@@ -13,3 +13,8 @@ type User struct {
 	Token        string    `gorm:"type:text"`
 	Date_created time.Time `json:"data_created"`
 }
+
+type User_followers struct {
+	Follower string `json:"follower" gorm:"primaryKey;type:varchar(55);not null"`
+	Followee string `json:"followee" gorm:"primaryKey;type:varchar(55);not null"`
+}
