@@ -13,4 +13,5 @@ type UserRepository interface {
 
 	GetUserbyId(id string) (*model.User, error)
 	FollowUser(follow model.User_followers) error
+	UnfollowUser(follow model.User_followers) error
 }

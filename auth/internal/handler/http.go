@@ -28,6 +28,7 @@ func NewUserHandler(u ports.UserUseCase, r *gin.Engine, m *middleware.UserMiddle
 		user.DELETE("/", m.Authorization(), handler.DeleteUser)
 		user.PUT("/", m.Authorization(), handler.UpdateUser)
 		user.POST("/follow", m.Authorization(), handler.Follow)
+		user.POST("/unfollow", m.Authorization(), handler.Unfollow)
 	}
 
 	return handler

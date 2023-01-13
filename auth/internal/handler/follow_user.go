@@ -27,5 +27,5 @@ func (u *UserHandler) Follow(c *gin.Context) {
 		c.JSON(400, gin.H{"message": "Failed to follow", "err": err.Error()})
 		return
 	}
-	c.JSON(200, gin.H{"message": "Followed User"})
+	c.JSON(201, gin.H{"message": "Followed User"})
 }

@@ -18,5 +18,5 @@ func (u *UserHandler) CreateUser(c *gin.Context) {
 		c.JSON(400, gin.H{"message": "Please check your values"})
 		return
 	}
-	c.JSON(200, gin.H{"message": "User Created Successfully"})
+	c.JSON(201, gin.H{"message": "User Created Successfully"})
 }

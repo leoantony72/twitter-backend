@@ -21,5 +21,5 @@ func (u *UserHandler) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, gin.H{"message": "User Updated Succesfully"})
+	c.JSON(201, gin.H{"message": "User Updated Succesfully"})
 }
