@@ -7,18 +7,17 @@ import (
 
 func (u *UserHandler) UpdateUser(c *gin.Context) {
 	user := model.User{}
-	username := c.Value("username").(string)
+	id := c.Value("id").(string)
 
-	
 	err := c.BindJSON(&user)
 	if err != nil {
 		c.JSON(400, gin.H{"message": "something went wrong"})
 		return
 	}
-	user.Username = username
+	user.Id = id
 	err = u.userUseCase.Update(user)
 	if err != nil {
-		c.JSON(400, gin.H{"message": "Please check your values","err":err.Error()})
+		c.JSON(400, gin.H{"message": "Please check your values", "err": err.Error()})
 		return
 	}
 
