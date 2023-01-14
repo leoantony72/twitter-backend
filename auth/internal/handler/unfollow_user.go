@@ -8,7 +8,7 @@ import (
 func (u *UserHandler) Unfollow(c *gin.Context) {
 	follow := model.User_followers{}
 	follow.Follower = c.Value("id").(string)
-	follow.Followee = c.Query("follow")
+	follow.Followee = c.Query("id")
 
 	err := u.userUseCase.UnfollowUser(follow)
 	if err != nil {

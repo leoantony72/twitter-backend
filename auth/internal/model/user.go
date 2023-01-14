@@ -9,6 +9,8 @@ type User struct {
 	Username     string    `json:"username" gorm:"type:varchar(25);not null"`
 	Email        string    `json:"email" gorm:"type:varchar(40);uniqueIndex;not null"`
 	Password     string    `json:"password" gorm:"type:varchar(50);not null"`
+	Followers    int       `json:"followers" gorm:"type:integer;default:0"`
+	Following    int       `json:"following" gorm:"type:integer;default:0"`
 	Salt         string    `gorm:"type:text"`
 	Token        string    `gorm:"type:text"`
 	Date_created time.Time `json:"data_created"`
