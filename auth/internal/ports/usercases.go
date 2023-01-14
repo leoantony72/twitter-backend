@@ -8,6 +8,7 @@ type UserUseCase interface {
 	Delete(id string) error
 
 	Login(username string, password string) (string, string, error)
+	Logout(id string) error
 	AddToken(username, token string) error
 	GetToken(refreshToken string) (model.User, error)
 
