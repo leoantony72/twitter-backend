@@ -18,6 +18,7 @@ func NewUserHandler(u ports.UserUseCase, r *gin.Engine, m *middleware.UserMiddle
 		auth.POST("/signup", handler.CreateUser)
 		auth.POST("/login", handler.LoginUser)
 		auth.POST("/logout", m.Authorization(), handler.LogoutUser)
+		auth.POST("/refresh-token", handler.GenerateNewToken)
 		protect := auth.Group("/admin").Use(m.Authorization())
 		{
 			protect.GET("/", handler.Test)

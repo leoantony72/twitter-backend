@@ -1,6 +1,9 @@
 package ports
 
-import "github.com/leoantony72/twitter-backend/auth/internal/model"
+import (
+	"github.com/golang-jwt/jwt"
+	"github.com/leoantony72/twitter-backend/auth/internal/model"
+)
 
 type UserUseCase interface {
 	Create(user model.User) error
@@ -11,6 +14,8 @@ type UserUseCase interface {
 	Logout(id string) error
 	AddToken(username, token string) error
 	GetToken(refreshToken string) (model.User, error)
+	GetTokenClaims(token string) (*jwt.Token, jwt.MapClaims, error)
+	GenerateAccessToken(name, Id string) (string, error)
 
 	GetUserbyId(id string) (*model.User, error)
 	FollowUser(follow model.User_followers) error
