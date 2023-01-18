@@ -17,6 +17,6 @@ type User struct {
 }
 
 type User_followers struct {
-	Follower string `json:"follower" gorm:"primaryKey;type:varchar(55);not null"`
-	Followee string `json:"followee" gorm:"primaryKey;type:varchar(55);not null"`
+	Follower string `json:"follower" gorm:"primaryKey;type:varchar(55) REFERENCES users(id);not null"`
+	Followee string `json:"followee" gorm:"primaryKey;type:varchar(55) REFERENCES users(id);not null"`
 }
