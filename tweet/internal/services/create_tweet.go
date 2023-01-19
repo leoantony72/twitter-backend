@@ -1,7 +1,7 @@
-package repositories
+package services
 
 import "github.com/leoantony72/twitter-backend/tweet/internal/model"
 
-func (t *TweetRepo) CreateTweet(*model.Tweets) error {
+func (t *TweetService) CreateTweet(*model.Tweets) error {
 	return nil
 }

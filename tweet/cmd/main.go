@@ -1,7 +1,11 @@
 package main
 
-import "github.com/leoantony72/twitter-backend/tweet/database"
+import (
+	"github.com/leoantony72/twitter-backend/tweet/database"
+	"github.com/leoantony72/twitter-backend/tweet/internal/repositories"
+)
 
 func main() {
-	database.StartPostgres()
+	db := database.StartPostgres()
+	repositories.NewTweetRepo(db)
 }
