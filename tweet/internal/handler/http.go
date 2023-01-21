@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/leoantony72/twitter-backend/tweet/internal/middleware"
 	"github.com/leoantony72/twitter-backend/tweet/internal/ports"
 )
 
@@ -9,7 +10,7 @@ type TweetHandler struct {
 	tweet_service ports.TweetService
 }
 
-func NewTweetHandler(s ports.TweetService, r *gin.Engine) *TweetHandler {
+func NewTweetHandler(s ports.TweetService, m *middleware.TweetMiddleware, r *gin.Engine) *TweetHandler {
 	handler := &TweetHandler{
 		tweet_service: s,
 	}

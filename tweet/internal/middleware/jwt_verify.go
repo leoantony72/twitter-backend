@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 
@@ -8,7 +9,7 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-func Authorization() gin.HandlerFunc {
+func (u *TweetMiddleware) Authorization() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		signedToken, err := ctx.Cookie("access-Token")
 		if err != nil {
@@ -19,6 +20,10 @@ func Authorization() gin.HandlerFunc {
 
 		_, claims, err := ValidateJwt(signedToken)
 		if err != nil {
+			if err.Error() == "Token is expired" {
+				ctx.AbortWithStatusJSON(401, gin.H{"msg": "Token expired"})
+				return
+			}
 			ctx.JSON(500, gin.H{"message": "Something went wrong, Try Again"})
 			ctx.Abort()
 			return
@@ -43,6 +48,9 @@ func ValidateJwt(signedToken string) (*jwt.Token, jwt.MapClaims, error) {
 
 	// Parse the signed JWT and verify it with the RSA public key
 	token, err := jwt.Parse(signedToken, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
+			return nil, fmt.Errorf("unexepcted signing method: %v", token.Header["alg"])
+		}
 		return rsaPublicKey, nil
 	})
 
