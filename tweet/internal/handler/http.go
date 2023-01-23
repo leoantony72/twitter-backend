@@ -16,14 +16,14 @@ func NewTweetHandler(s ports.TweetService, m *middleware.TweetMiddleware, r *gin
 	}
 	tweet := r.Group("/tweet")
 	{
-		tweet.GET("/id/:id")             //get tweet by id
-		tweet.GET("/username/:username") //get tweet by username. returns array of tweets
-		tweet.POST("/Create")
-		tweet.DELETE("/:id/Delete")
-		tweet.POST("/:id/like")
-		tweet.DELETE("/:id/dislike")
-		tweet.POST("/:id/retweet")
-		tweet.DELETE("/:id/retweet")
+		tweet.GET("/id/:id", handler.GetTweetById)                   //get tweet by id
+		tweet.GET("/username/:username", handler.GetTweetByUsername) //get tweet by username. returns array of tweets
+		tweet.POST("/Create", handler.CreateTweet)
+		// tweet.DELETE("/:id/Delete")
+		// tweet.POST("/:id/like")
+		// tweet.DELETE("/:id/dislike")
+		// tweet.POST("/:id/retweet")
+		// tweet.DELETE("/:id/retweet")
 	}
 
 	return handler
