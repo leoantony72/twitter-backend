@@ -7,12 +7,13 @@ import (
 
 func (t *TweetHandler) CreateTweet(c *gin.Context) {
 	tweet := model.Tweets{}
-	err := c.ShouldBindJSON(&tweet)
+	err := c.BindJSON(&tweet)
 	if err != nil {
 		c.JSON(400, gin.H{"message": err.Error()})
 		return
 	}
-	err = t.tweet_service.CreateTweet(&tweet)
+	tweet.Username = c.Value("username").(string)
+	err = t.tweet_service.CreateTweet(tweet)
 	if err != nil {
 		c.JSON(400, gin.H{"message": err.Error()})
 		return

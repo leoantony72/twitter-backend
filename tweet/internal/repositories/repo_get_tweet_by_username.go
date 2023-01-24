@@ -3,5 +3,7 @@ package repositories
 import "github.com/leoantony72/twitter-backend/tweet/internal/model"
 
 func (t *TweetRepo) GetTweetByUser(username string) ([]*model.Tweets, error) {
+	tweet := model.Tweets{}
+	t.db.Model(&tweet).Select("id", "username", "created_at", "like_cout", "retweet_count").Where("username=?", username)
 	return nil, nil
 }

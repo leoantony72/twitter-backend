@@ -18,5 +18,5 @@ func main() {
 	middleware := middleware.NewTweetMiddleware(service)
 
 	handler.NewTweetHandler(service, middleware, r)
-	r.Run(":8085")
+	r.Run(":8090")
 }

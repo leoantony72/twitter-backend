@@ -8,6 +8,9 @@ import (
 func (u *UserPostgresRepo) FollowUser(follow model.User_followers) error {
 	user := model.User{}
 	err := u.db.Model(&follow).Create(&follow)
+	if err.Error != nil {
+		return err.Error
+	}
 	//update follower -> following count +1
 	u.db.Model(&user).Where("id", follow.Follower).Update("following", gorm.Expr("following + 1"))
 

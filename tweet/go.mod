@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/gin-gonic/gin v1.8.2
 	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/segmentio/ksuid v1.0.4
 	gorm.io/driver/postgres v1.4.6
 	gorm.io/gorm v1.24.3
 )

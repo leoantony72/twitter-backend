@@ -11,6 +11,13 @@ type TweetRepo struct {
 
 func NewTweetRepo(db *gorm.DB) ports.TweetRepository {
 	return &TweetRepo{
-		db:db,
+		db: db,
 	}
+}
+
+func CheckErr(err error) error {
+	if err != nil {
+		return err
+	}
+	return nil
 }
