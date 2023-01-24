@@ -9,6 +9,7 @@ func (t *TweetHandler) DeleteTweet(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(400, gin.H{"message": err.Error()})
+		return
 	}
 	c.JSON(201, gin.H{"message": "tweet deleted"})
 }

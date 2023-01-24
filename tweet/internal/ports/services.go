@@ -7,8 +7,8 @@ type TweetService interface {
 	GetTweetByUser(username string) ([]*model.Tweets, error)
 	CreateTweet(tweet model.Tweets) error
 	DeleteTweet(id, user string) error
-	LikeTweet(id string) error
-	DislikeTweet(id string) error
+	LikeTweet(id,user string) error
+	DislikeTweet(id,user string) error
 	ReTweet(id, user string) error
 	DeleteReTweet(id, user string) error
 }
