@@ -13,4 +13,5 @@ type TweetRepository interface {
 	DislikeTweet(id, user string) error
 	ReTweet(id, user string) error
 	DeleteReTweet(id, user string) error
+	TweetAuthor(id string) (*model.Tweets, error)
 }

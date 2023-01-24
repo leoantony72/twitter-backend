@@ -19,7 +19,7 @@ func NewTweetHandler(s ports.TweetService, m *middleware.TweetMiddleware, r *gin
 		tweet.GET("/id/:id", handler.GetTweetById)                   //get tweet by id
 		tweet.GET("/username/:username", handler.GetTweetByUsername) //get tweet by username. returns array of tweets
 		tweet.POST("/create", m.Authorization(), handler.CreateTweet)
-		tweet.DELETE("/:id/Delete", m.Authorization(), handler.DeleteTweet)
+		tweet.DELETE("/:id/delete", m.Authorization(), m.CheckAuthor(), handler.DeleteTweet)
 		tweet.POST("/:id/like", m.Authorization(), handler.LikeTweet)
 		tweet.DELETE("/:id/dislike", m.Authorization(), handler.DislikeTweet)
 		tweet.POST("/:id/retweet", m.Authorization(), handler.ReTweet)
