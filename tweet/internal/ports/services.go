@@ -10,5 +10,5 @@ type TweetService interface {
 	LikeTweet(id string) error
 	DislikeTweet(id string) error
 	ReTweet(id string) error
-	DeleteReTweet(id string) error
+	DeleteReTweet(id,user string) error
 }
