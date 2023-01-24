@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"errors"
+
 	"github.com/leoantony72/twitter-backend/tweet/internal/model"
 	"gorm.io/gorm"
 )
@@ -9,6 +11,9 @@ func (t *TweetRepo) DeleteReTweet(id, user string) error {
 	retweet := model.Retweet{}
 	tweet := model.Tweets{}
 	result := t.db.Model(&retweet).Where("tweet_id =? AND username=?", id, user).Delete(id)
+	if result.RowsAffected == 0 {
+		return errors.New("you have not retweeted")
+	}
 	if result.Error != nil {
 		return result.Error
 	}

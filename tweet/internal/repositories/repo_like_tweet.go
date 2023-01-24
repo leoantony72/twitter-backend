@@ -14,7 +14,7 @@ func (t *TweetRepo) LikeTweet(id, user string) error {
 		return result.Error
 	}
 	tweet := model.Tweets{}
-	result = t.db.Model(&tweet).Where("id=? and username=?", like.TweetId, like.Username).Update("like_count", gorm.Expr("like_count + 1"))
+	result = t.db.Model(&tweet).Where("id=? ", like.TweetId).Update("like_count", gorm.Expr("like_count + 1"))
 	if result.Error != nil {
 		return result.Error
 	}

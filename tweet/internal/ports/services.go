@@ -4,7 +4,7 @@ import "github.com/leoantony72/twitter-backend/tweet/internal/model"
 
 type TweetService interface {
 	GetTweetById(id string) (*model.Tweets, error)
-	GetTweetByUser(username string) ([]*model.Tweets, error)
+	GetTweetByUser(username string) (*[]model.Tweets, error)
 	CreateTweet(tweet model.Tweets) error
 	DeleteTweet(id, user string) error
 	LikeTweet(id, user string) error

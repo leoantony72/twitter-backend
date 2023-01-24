@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"encoding/json"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,6 +15,5 @@ func (t *TweetHandler) GetTweetByUsername(c *gin.Context) {
 		c.JSON(400, gin.H{"message": err.Error()})
 		return
 	}
-	jsonData, _ := json.Marshal(tweets)
-	c.JSON(200, gin.H{"message": "success", "data": jsonData})
+	c.JSON(200, gin.H{"message": "success", "data": tweets})
 }

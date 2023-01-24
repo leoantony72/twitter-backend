@@ -21,7 +21,7 @@ func NewTweetHandler(s ports.TweetService, m *middleware.TweetMiddleware, r *gin
 		tweet.POST("/create", m.Authorization(), handler.CreateTweet)
 		tweet.DELETE("/:id/delete", m.Authorization(), m.CheckAuthor(), handler.DeleteTweet)
 		tweet.POST("/:id/like", m.Authorization(), handler.LikeTweet)
-		tweet.DELETE("/:id/dislike", m.Authorization(), handler.DislikeTweet)
+		tweet.POST("/:id/dislike", m.Authorization(), handler.DislikeTweet)
 		tweet.POST("/:id/retweet", m.Authorization(), handler.ReTweet)
 		tweet.DELETE("/:id/retweet", m.Authorization(), handler.DeleteReTweet)
 	}

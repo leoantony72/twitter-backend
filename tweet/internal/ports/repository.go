@@ -6,7 +6,7 @@ import (
 
 type TweetRepository interface {
 	GetTweetById(id string) (*model.Tweets, error)
-	GetTweetByUser(username string) ([]*model.Tweets, error)
+	GetTweetByUser(username string) (*[]model.Tweets, error)
 	CreateTweet(tweet model.Tweets) error
 	DeleteTweet(id, user string) error
 	LikeTweet(id, user string) error
