@@ -11,6 +11,6 @@ type TweetRepository interface {
 	DeleteTweet(id string) error
 	LikeTweet(id string) error
 	DislikeTweet(id string) error
-	ReTweet(id string) error
+	ReTweet(id, user string) error
 	DeleteReTweet(id, user string) error
 }

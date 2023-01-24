@@ -22,8 +22,8 @@ func NewTweetHandler(s ports.TweetService, m *middleware.TweetMiddleware, r *gin
 		// tweet.DELETE("/:id/Delete")
 		// tweet.POST("/:id/like")
 		// tweet.DELETE("/:id/dislike")
-		// tweet.POST("/:id/retweet")
-		tweet.DELETE("/:id/retweet",m.Authorization(),handler.DeleteReTweet)
+		tweet.POST("/:id/retweet", m.Authorization(), handler.ReTweet)
+		tweet.DELETE("/:id/retweet", m.Authorization(), handler.DeleteReTweet)
 	}
 
 	return handler

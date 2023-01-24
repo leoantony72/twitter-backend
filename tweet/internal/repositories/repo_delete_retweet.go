@@ -12,6 +12,9 @@ func (t *TweetRepo) DeleteReTweet(id, user string) error {
 	if result.Error != nil {
 		return result.Error
 	}
-	t.db.Model(&tweet).Where("id=?", id).Update("retweet_count", gorm.Expr("retweet_count - 1"))
+	result = t.db.Model(&tweet).Where("id=?", id).Update("retweet_count", gorm.Expr("retweet_count - 1"))
+	if result.Error != nil {
+		return result.Error
+	}
 	return nil
 }
