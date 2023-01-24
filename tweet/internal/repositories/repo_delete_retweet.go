@@ -7,17 +7,17 @@ import (
 	"gorm.io/gorm"
 )
 
-func (t *TweetRepo) DeleteReTweet(id, user string) error {
-	retweet := model.Retweet{}
+func (t *TweetRepo) DeleteReTweet(retweet model.Retweet) error {
+	// retweet := model.Retweet{}
 	tweet := model.Tweets{}
-	result := t.db.Model(&retweet).Where("tweet_id =? AND username=?", id, user).Delete(id)
+	result := t.db.Model(&retweet).Where("tweet_id =? AND username=?", retweet.TweetId, retweet.Username).Delete(retweet.TweetId)
 	if result.RowsAffected == 0 {
 		return errors.New("you have not retweeted")
 	}
 	if result.Error != nil {
 		return result.Error
 	}
-	result = t.db.Model(&tweet).Where("id=?", id).Update("retweet_count", gorm.Expr("retweet_count - 1"))
+	result = t.db.Model(&tweet).Where("id=?", retweet.TweetId).Update("retweet_count", gorm.Expr("retweet_count - 1"))
 	if result.Error != nil {
 		return result.Error
 	}

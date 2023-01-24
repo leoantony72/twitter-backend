@@ -9,9 +9,12 @@ type TweetRepository interface {
 	GetTweetByUser(username string) (*[]model.Tweets, error)
 	CreateTweet(tweet model.Tweets) error
 	DeleteTweet(id, user string) error
-	LikeTweet(id, user string) error
-	DislikeTweet(id, user string) error
-	ReTweet(id, user string) error
-	DeleteReTweet(id, user string) error
+
+	LikeTweet(like model.Like) error
+	DislikeTweet(like model.Like) error
+
+	ReTweet(retweet model.Retweet) error
+	DeleteReTweet(retweet model.Retweet) error
+
 	TweetAuthor(id string) (*model.Tweets, error)
 }

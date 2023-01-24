@@ -1,15 +1,20 @@
 package repositories
 
 import (
+	"errors"
+
 	"github.com/leoantony72/twitter-backend/tweet/internal/model"
 	"gorm.io/gorm"
 )
 
-func (t *TweetRepo) LikeTweet(id, user string) error {
-	like := model.Like{}
-	like.TweetId = id
-	like.Username = user
+func (t *TweetRepo) LikeTweet(like model.Like) error {
+	// like := model.Like{}
+	// like.TweetId = id
+	// like.Username = user
 	result := t.db.Model(&like).Create(&like)
+	if result.RowsAffected == 0 {
+		return errors.New("invalid Tweet ID")
+	}
 	if result.Error != nil {
 		return result.Error
 	}

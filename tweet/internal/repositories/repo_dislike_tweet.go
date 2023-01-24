@@ -7,10 +7,10 @@ import (
 	"gorm.io/gorm"
 )
 
-func (t *TweetRepo) DislikeTweet(id, user string) error {
-	like := model.Like{}
-	like.TweetId = id
-	like.Username = user
+func (t *TweetRepo) DislikeTweet(like model.Like) error {
+	// like := model.Like{}
+	// like.TweetId = id
+	// like.Username = user
 	result := t.db.Model(&like).Where("tweet_id=? AND username=?", like.TweetId, like.Username).Delete(like.TweetId)
 	if result.RowsAffected == 0 {
 		return errors.New("you have not liked the tweet")
