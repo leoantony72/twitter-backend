@@ -10,6 +10,7 @@ import (
 	"github.com/leoantony72/twitter-backend/auth/internal/middleware"
 	"github.com/leoantony72/twitter-backend/auth/internal/repositories"
 	"github.com/leoantony72/twitter-backend/auth/internal/services"
+	"github.com/leoantony72/twitter-backend/auth/pkg"
 )
 
 func main() {
@@ -26,7 +27,11 @@ func main() {
 
 	middleware := middleware.NewUserMiddleware(service)
 
-	handler.NewUserHandler(service, r,middleware)
+	handler.NewUserHandler(service, r, middleware)
 
+	err := pkg.RegisterService()
+	if err != nil {
+		return
+	}
 	r.Run(":8080")
 }

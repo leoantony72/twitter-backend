@@ -13,6 +13,8 @@ type UserHandler struct {
 func NewUserHandler(u ports.UserUseCase, r *gin.Engine, m *middleware.UserMiddleware) *UserHandler {
 	handler := &UserHandler{userUseCase: u}
 
+	r.GET("/check",handler.Check)
+
 	auth := r.Group("/auth")
 	{
 		auth.POST("/signup", handler.CreateUser)

@@ -7,3 +7,8 @@ services:
       context: ./haproxy
     ports:
       - 80:80
+  service_register:
+    container_name: "tw_service_register"
+    image: consul:latest
+    ports:
+      - "8500:8500"       
