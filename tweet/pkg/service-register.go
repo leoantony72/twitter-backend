@@ -9,12 +9,9 @@ import (
 	"github.com/hashicorp/consul/api"
 )
 
-// type service struct{
-
-// }
-
 func RegisterService() error {
 	client, err := api.NewClient(&api.Config{})
+
 	if err != nil {
 		fmt.Println(err)
 		return err
@@ -22,13 +19,12 @@ func RegisterService() error {
 
 	PORT, ID, NAME := getConstaints()
 	ADDRESS := getHostname()
-
 	register := &api.AgentServiceRegistration{
 		ID:      ID,
 		Name:    NAME,
 		Port:    PORT,
 		Address: ADDRESS,
-		Tags:    []string{"Twitter", "Auth"},
+		Tags:    []string{"Twitter", "Tweet"},
 		Check: &api.AgentServiceCheck{
 			HTTP:     fmt.Sprintf("http://%s:%v/check", ADDRESS, PORT),
 			Interval: "10s",

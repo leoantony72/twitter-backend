@@ -14,6 +14,8 @@ func NewTweetHandler(s ports.TweetService, m *middleware.TweetMiddleware, r *gin
 	handler := &TweetHandler{
 		tweet_service: s,
 	}
+	//service health endpoint
+	r.GET("/check", handler.Check)
 	tweet := r.Group("/tweet")
 	{
 		tweet.GET("/id/:id", handler.GetTweetById)                   //get tweet by id

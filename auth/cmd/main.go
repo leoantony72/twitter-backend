@@ -33,5 +33,6 @@ func main() {
 	if err != nil {
 		return
 	}
-	r.Run(":8080")
+	PORT := pkg.GetEnv("PORT")
+	r.Run(":" + PORT)
 }

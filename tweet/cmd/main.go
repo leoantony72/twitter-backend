@@ -7,10 +7,12 @@ import (
 	"github.com/leoantony72/twitter-backend/tweet/internal/middleware"
 	"github.com/leoantony72/twitter-backend/tweet/internal/repositories"
 	"github.com/leoantony72/twitter-backend/tweet/internal/services"
+	"github.com/leoantony72/twitter-backend/tweet/pkg"
 )
 
 func main() {
-	r := gin.New()
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
 	db := database.StartPostgres()
 	repo := repositories.NewTweetRepo(db)
 	service := services.NewTweetService(repo)
@@ -18,5 +20,11 @@ func main() {
 	middleware := middleware.NewTweetMiddleware(service)
 
 	handler.NewTweetHandler(service, middleware, r)
-	r.Run(":8090")
+
+	err := pkg.RegisterService()
+	if err != nil {
+		return
+	}
+	PORT := pkg.GetEnv("PORT")
+	r.Run(":" + PORT)
 }
