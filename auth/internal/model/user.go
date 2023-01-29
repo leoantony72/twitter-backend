@@ -1,8 +1,6 @@
 package model
 
-import (
-	"time"
-)
+import "time"
 
 type User struct {
 	Id           string    `json:"id" gorm:"primaryKey;type:text"`
@@ -13,7 +11,7 @@ type User struct {
 	Following    int       `json:"following" gorm:"type:integer;default:0"`
 	Salt         string    `gorm:"type:text"`
 	Token        string    `gorm:"type:text"`
-	Date_created time.Time `json:"data_created"`
+	Date_created time.Time `json:"data_created" gorm:"type:timestamp"`
 }
 
 type User_followers struct {

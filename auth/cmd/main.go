@@ -17,8 +17,9 @@ func main() {
 	r := gin.Default()
 	//Database connection
 	db := database.StartPostgres()
+	redis := database.StartRedis()
 	//give database to repository
-	repo := repositories.NewUserPostgresRepo(db)
+	repo := repositories.NewUserPostgresRepo(db,redis)
 
 	//give repo to service
 	service := services.NewUseCase(repo)

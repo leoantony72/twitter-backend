@@ -1,6 +1,8 @@
 package services
 
 import (
+	"time"
+
 	"github.com/leoantony72/twitter-backend/auth/internal/model"
 	"github.com/leoantony72/twitter-backend/auth/internal/utils"
 )
@@ -14,6 +16,7 @@ func (u *userUseCase) Create(user model.User) error {
 	user.Password = HashedPassword
 	user.Salt = salt
 	user.Id = utils.GenerateID().String()
+	user.Date_created = time.Now()
 	err = u.userRepo.Create(user)
 	if err != nil {
 		return err

@@ -11,4 +11,13 @@ services:
     container_name: "tw_service_register"
     image: consul:latest
     ports:
-      - "8500:8500"       
+      - "8500:8500" 
+  redis:
+    container_name: "tw_redis"
+    image: redis:alpine
+    ports: 
+      - "6379:6379"
+    volumes:
+      - db:/var/lib/redis/data
+volumes:
+  db:
