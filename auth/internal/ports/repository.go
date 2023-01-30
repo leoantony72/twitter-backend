@@ -12,7 +12,7 @@ type UserRepository interface {
 	AddToken(username, token string) error
 	GetToken(refreshToken string) (model.User, error)
 
-	GetUserbyId(id string) (*model.User, error)
+	GetUserbyUsername(id string) (*model.User, error)
 	FollowUser(follow model.User_followers) error
 	UnfollowUser(follow model.User_followers) error
 }

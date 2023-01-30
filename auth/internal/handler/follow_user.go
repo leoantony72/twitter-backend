@@ -11,8 +11,8 @@ var duplicateFollow string = "ERROR: duplicate key value violates unique constra
 
 func (u *UserHandler) Follow(c *gin.Context) {
 	follow := model.User_followers{}
-	follower := c.Value("id").(string)
-	followee := c.Query("id")
+	follower := c.Value("username").(string)
+	followee := c.Query("username")
 
 	if followee == follower {
 		c.JSON(400, gin.H{"message": "Cannot follow yourself"})

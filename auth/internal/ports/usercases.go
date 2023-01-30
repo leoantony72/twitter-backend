@@ -17,7 +17,7 @@ type UserUseCase interface {
 	GetTokenClaims(token string) (*jwt.Token, jwt.MapClaims, error)
 	GenerateAccessToken(name, Id string) (string, error)
 
-	GetUserbyId(id string) (*model.User, error)
+	GetUserbyUsername(id string) (*model.User, error)
 	FollowUser(follow model.User_followers) error
 	UnfollowUser(follow model.User_followers) error
 }
