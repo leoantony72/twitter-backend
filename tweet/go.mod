@@ -5,7 +5,9 @@ go 1.18
 require (
 	github.com/gin-gonic/gin v1.8.2
 	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/hashicorp/consul/api v1.18.0
 	github.com/segmentio/ksuid v1.0.4
+	github.com/spf13/viper v1.15.0
 	gorm.io/driver/postgres v1.4.6
 	gorm.io/gorm v1.24.3
 )
@@ -19,7 +21,6 @@ require (
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.11.1 // indirect
 	github.com/goccy/go-json v0.10.0 // indirect
-	github.com/hashicorp/consul/api v1.18.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-hclog v1.4.0 // indirect
 	github.com/hashicorp/go-immutable-radix v1.3.1 // indirect
@@ -46,7 +47,6 @@ require (
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/spf13/viper v1.15.0 // indirect
 	github.com/subosito/gotenv v1.4.2 // indirect
 	github.com/ugorji/go/codec v1.2.8 // indirect
 	golang.org/x/crypto v0.5.0 // indirect

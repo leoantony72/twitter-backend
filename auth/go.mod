@@ -6,7 +6,7 @@ require (
 	github.com/gin-gonic/gin v1.8.2
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/hashicorp/consul/api v1.18.0
-	github.com/redis/go-redis/v9 v9.0.0-rc.4
+	github.com/redis/go-redis/v9 v9.0.2
 	github.com/segmentio/ksuid v1.0.4
 	github.com/spf13/viper v1.15.0
 	golang.org/x/crypto v0.4.0

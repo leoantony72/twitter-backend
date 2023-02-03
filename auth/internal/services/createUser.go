@@ -17,6 +17,7 @@ func (u *userUseCase) Create(user model.User) error {
 	user.Salt = salt
 	user.Id = utils.GenerateID().String()
 	user.Date_created = time.Now()
+	// fmt.Println(user.Date_created)
 	err = u.userRepo.Create(user)
 	if err != nil {
 		return err
