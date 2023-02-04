@@ -4,10 +4,10 @@ import "github.com/gin-gonic/gin"
 
 func (u *UserHandler) DeleteUser(c *gin.Context) {
 
-	id := c.Value("id").(string)
-	// id := c.Query("id")
+	username := c.Value("username").(string)
+	// username := c.Query("username")
 
-	err := u.userUseCase.Delete(id)
+	err := u.userUseCase.Delete(username)
 	if err != nil {
 		c.JSON(400, gin.H{"message": "something went wrong"})
 		return

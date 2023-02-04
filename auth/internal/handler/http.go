@@ -28,7 +28,7 @@ func NewUserHandler(u ports.UserUseCase, r *gin.Engine, m *middleware.UserMiddle
 	}
 	user := r.Group("/user")
 	{
-		user.GET("/:username", handler.GetByUsername)
+		user.GET("/data/:username", handler.GetByUsername)
 		user.DELETE("/", m.Authorization(), handler.DeleteUser)
 		user.PUT("/", m.Authorization(), handler.UpdateUser)
 		user.POST("/follow", m.Authorization(), handler.Follow)

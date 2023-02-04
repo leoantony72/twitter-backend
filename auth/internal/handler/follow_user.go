@@ -18,6 +18,10 @@ func (u *UserHandler) Follow(c *gin.Context) {
 		c.JSON(400, gin.H{"message": "Cannot follow yourself"})
 		return
 	}
+	if followee == ""{
+		c.JSON(400, gin.H{"message": "Please specify followee"})
+		return
+	}
 
 	follow.Follower = follower
 	follow.Followee = followee
