@@ -13,10 +13,10 @@ func (u *UserPostgresRepo) UnfollowUser(follow model.User_followers) error {
 	}
 
 	//update follower -> following count -1
-	u.db.Model(&user).Where("id", follow.Follower).Update("following", gorm.Expr("following - 1"))
+	u.db.Model(&user).Where("id", follow.Follower).Update("following_count", gorm.Expr("following_count - 1"))
 
 	//update followee - followers count -1
-	u.db.Model(&user).Where("id", follow.Followee).Update("followers", gorm.Expr("followers - 1"))
+	u.db.Model(&user).Where("id", follow.Followee).Update("followers_count", gorm.Expr("followers_count - 1"))
 
 	return nil
 }

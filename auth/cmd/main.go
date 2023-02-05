@@ -14,6 +14,7 @@ import (
 )
 
 func main() {
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	//Database connection
 	db := database.StartPostgres()
