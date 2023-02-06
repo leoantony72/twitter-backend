@@ -2,6 +2,8 @@ package repositories
 
 import (
 	"errors"
+	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/leoantony72/twitter-backend/auth/internal/model"
@@ -23,6 +25,8 @@ func (u *UserPostgresRepo) GetUserbyUsername(username string) (*model.User, erro
 	redis_key := "users:" + user.Username + ":metadata"
 	redisFollowingKey := "users:" + user.Username + ":following"
 	redisFollowersKey := "users:" + user.Username + ":followers"
+	redisFollowerCount := "users:" + user.Username + ":follower_count"
+	redisFollowingCount := "users:" + user.Username + ":following_count"
 
 	ok := DoesKeyExist(u, redis_key)
 	err := u.redis.HGetAll(ctx, redis_key).Scan(&user)
@@ -31,9 +35,13 @@ func (u *UserPostgresRepo) GetUserbyUsername(username string) (*model.User, erro
 	//@Get Followings from Redis Sorted Set
 	u.redis.ZRange(ctx, redisFollowersKey, 0, -1).ScanSlice(&TempUserFollows.Followers)
 	u.redis.ZRange(ctx, redisFollowingKey, 0, -1).ScanSlice(&TempUserFollows.Following)
+	Followercount, _ := u.redis.Get(ctx, redisFollowerCount).Result()
+	Followingcount, _ := u.redis.Get(ctx, redisFollowingCount).Result()
 	if err == nil && err != redis.Nil && ok {
 		user.Followers = TempUserFollows.Followers
 		user.Following = TempUserFollows.Following
+		user.Follower_Count, _ = strconv.Atoi(Followercount)
+		user.Following_Count, _ = strconv.Atoi(Followingcount)
 		// fmt.Println("CACHED DATA")
 		//@decode the time string from redis
 		//@store it in the User.Date_created struct
@@ -69,12 +77,14 @@ func (u *UserPostgresRepo) GetUserbyUsername(username string) (*model.User, erro
 	//@store it in User.Encoded_Date Struct
 	encoded_date, _ := user.Date_created.MarshalText()
 	user.Encoded_Date = string(encoded_date)
-	u.redis.HSet(ctx, redis_key, &user)
+	rerr := u.redis.HSet(ctx, redis_key, &user)
 	u.redis.ExpireAt(ctx, redis_key, time.Now().Add(time.Second*20))
-	// fmt.Println("redis Err: ", rerr.Err())
+	fmt.Println("redis Err: ", rerr.Err())
 	user.Followers = TempUserFollows.Followers
 	user.Following = TempUserFollows.Following
 
+	u.redis.Set(ctx, redisFollowerCount, user.Follower_Count, 0)
+	u.redis.Set(ctx, redisFollowingCount, user.Following_Count, 0)
 	for _, user := range TempUserFollows.Followers {
 		u.redis.ZAddNX(ctx, redisFollowersKey, redis.Z{Member: user})
 	}

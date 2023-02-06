@@ -9,8 +9,8 @@ type User struct {
 	Username        string    `json:"username" gorm:"type:varchar(25);uniqueIndex;not null" redis:"username"`
 	Email           string    `json:"email" gorm:"type:varchar(40);uniqueIndex;not null" redis:"email"`
 	Password        string    `json:"password,omitempty" gorm:"type:varchar(50);not null" redis:"-"`
-	Follower_Count  int       `json:"follower_count" gorm:"type:integer;default:0" redis:"followers_count"`
-	Following_Count int       `json:"following_count" gorm:"type:integer;default:0" redis:"following_count"`
+	Follower_Count  int       `json:"follower_count" gorm:"type:integer;default:0" redis:"-"`
+	Following_Count int       `json:"following_count" gorm:"type:integer;default:0" redis:"-"`
 	Salt            string    `json:"-" gorm:"type:text" redis:"-"`
 	Token           string    `json:"-" gorm:"type:text" redis:"-"`
 	Date_created    time.Time `json:"data_created" gorm:"type:timestamp"`
@@ -20,6 +20,6 @@ type User struct {
 }
 
 type User_followers struct {
-	Follower string `json:"follower" gorm:"primaryKey;type:varchar(55) REFERENCES users(username);not null"`
-	Followee string `json:"followee" gorm:"primaryKey;type:varchar(55) REFERENCES users(username);not null"`
+	Follower string `json:"follower" gorm:"primaryKey;type:varchar(55) REFERENCES users(username); constraint:OnUpdate:CASCADE,OnDelete:CASCADE;not null"`
+	Followee string `json:"followee" gorm:"primaryKey;type:varchar(55) REFERENCES users(username); constraint:OnUpdate:CASCADE;not null"`
 }

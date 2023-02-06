@@ -16,10 +16,15 @@ func (u *UserPostgresRepo) Create(user model.User) error {
 	//Encoded data
 	encoded_date, _ := user.Date_created.MarshalText()
 	user.Encoded_Date = string(encoded_date)
-	create_user_cache(u,redis_key,&user)
+	create_user_cache(u, redis_key, &user)
 	return nil
 }
 func create_user_cache(u *UserPostgresRepo, key string, values *model.User) {
 	u.redis.HSet(ctx, key, &values)
+
+	client_follower_key := "users:" + values.Username + ":follower_count"
+	client_following_key := "users:" + values.Username + ":following_count"
+	u.redis.IncrBy(ctx, client_follower_key, 0)
+	u.redis.IncrBy(ctx, client_following_key, 0)
 	u.redis.ExpireAt(ctx, key, time.Now().Add(time.Second*10))
 }
