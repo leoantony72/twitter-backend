@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	gin.SetMode(gin.ReleaseMode)
+	// gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	db := database.StartPostgres()
 	redis:=database.StartRedis()

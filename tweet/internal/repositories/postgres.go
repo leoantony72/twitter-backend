@@ -8,10 +8,10 @@ import (
 	"gorm.io/gorm"
 )
 
-var ctx =context.Background()
+var ctx = context.Background()
 
 type TweetRepo struct {
-	db *gorm.DB
+	db    *gorm.DB
 	redis *redis.Client
 }
 
@@ -27,4 +27,9 @@ func CheckErr(err error) error {
 		return err
 	}
 	return nil
+}
+
+func DoesKeyExist(t *TweetRepo, key string) bool {
+	exists := t.redis.Exists(ctx, key).Val()
+	return exists != 0
 }
