@@ -7,7 +7,7 @@ import (
 
 type UserUseCase interface {
 	Create(user model.User) error
-	Update(user model.User) error
+	Update(user model.User,prevUsername string) error
 	Delete(username string) error
 
 	Login(username string, password string) (string, string, error)
