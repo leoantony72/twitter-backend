@@ -14,7 +14,8 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	db := database.StartPostgres()
-	repo := repositories.NewTweetRepo(db)
+	redis:=database.StartRedis()
+	repo := repositories.NewTweetRepo(db,redis)
 	service := services.NewTweetService(repo)
 
 	middleware := middleware.NewTweetMiddleware(service)

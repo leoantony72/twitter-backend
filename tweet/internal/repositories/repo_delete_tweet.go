@@ -15,5 +15,7 @@ func (t *TweetRepo) DeleteTweet(id, user string) error {
 	if result.Error != nil {
 		return result.Error
 	}
+	redis_key := "tweets:" + tweet.Id
+	t.redis.Del(ctx, redis_key)
 	return nil
 }
