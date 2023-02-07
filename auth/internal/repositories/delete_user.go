@@ -9,15 +9,13 @@ func (u *UserPostgresRepo) Delete(username string) error {
 		return result.Error
 	}
 	redis_key := "users:" + username + ":*"
-	// redis_following_key := "users:" + username + ":following"
-	// redis_followers_key := "users:" + username + ":followers"
-	// redis_following_count_key := "users:" + username + ":following_count"
-	// redis_followers_count_key := "users:" + username + ":follower_count"
-	// u.redis.HDel(ctx, redis_key)
-	// u.redis.HDel(ctx, redis_followers_key)
-	// u.redis.HDel(ctx, redis_following_key)
-	// u.redis.HDel(ctx, redis_following_count_key)
-	// u.redis.HDel(ctx, redis_followers_count_key)
-	u.redis.HDel(ctx, redis_key)
+	iter := u.redis.Scan(ctx, 0, redis_key, 0).Iterator()
+	for iter.Next(ctx) {
+		// fmt.Println("keys", iter.Val())
+		u.redis.Del(ctx, iter.Val())
+	}
+	if err := iter.Err(); err != nil {
+		panic(err)
+	}
 	return nil
 }

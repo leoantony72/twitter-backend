@@ -24,7 +24,5 @@ func (u *UserPostgresRepo) Update(user model.User, prevUsername string) error {
 	if err := iter.Err(); err != nil {
 		panic(err)
 	}
-	_, errs := u.redis.Del(ctx, redis_key).Result()
-	fmt.Println(errs)
 	return nil
 }
