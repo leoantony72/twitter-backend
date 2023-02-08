@@ -11,8 +11,6 @@ import (
 func (t *TweetRepo) LikeTweet(like model.Like) error {
 	redis_tweet_key := "tweets:" + like.TweetId
 	redis_tweet_like_key := "tweets:" + like.TweetId + ":like"
-	t.redis.ZAdd(ctx, redis_tweet_like_key, redis.Z{Score: 0, Member: like.Username})
-	t.redis.HIncrBy(ctx, redis_tweet_key, "like_count", 1)
 
 	result := t.db.Model(&like).Create(&like)
 	if result.RowsAffected == 0 {
@@ -26,5 +24,7 @@ func (t *TweetRepo) LikeTweet(like model.Like) error {
 	if result.Error != nil {
 		return result.Error
 	}
+	t.redis.ZAdd(ctx, redis_tweet_like_key, redis.Z{Score: 0, Member: like.Username})
+	t.redis.HIncrBy(ctx, redis_tweet_key, "like_count", 1)
 	return nil
 }

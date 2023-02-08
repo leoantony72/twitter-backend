@@ -6,11 +6,13 @@ import (
 	"time"
 
 	"github.com/leoantony72/twitter-backend/tweet/internal/model"
+	"github.com/redis/go-redis/v9"
 )
 
 func (t *TweetRepo) GetTweetByUser(username string) (*[]model.Tweets, error) {
 	tempTweet := model.Tweets{}
-	tweet := []model.Tweets{}
+	tweet_metadata_temp := TempTweet{}
+	tweets := []model.Tweets{}
 	tweet_ids := []string{}
 
 	redis_user_key := "users:" + username + ":tweets"
@@ -22,19 +24,31 @@ func (t *TweetRepo) GetTweetByUser(username string) (*[]model.Tweets, error) {
 		err = t.redis.HGetAll(ctx, redis_tweet_key).Scan(&tempTweet)
 		tm.UnmarshalText([]byte(tempTweet.Encoded_date))
 		tempTweet.CreatedAt = tm
-		tweet = append(tweet, tempTweet)
+
+		redis_tweet_like_key := "tweets:" + id + ":like"
+		redis_tweet_retweet_key := "tweets:" + id + ":retweet"
+		t.redis.ZRange(ctx, redis_tweet_like_key, 0, 5).ScanSlice(&tweet_metadata_temp.Likes)
+		t.redis.ZRange(ctx, redis_tweet_retweet_key, 0, 5).ScanSlice(&tweet_metadata_temp.Retweets)
+		tempTweet.Likes = tweet_metadata_temp.Likes
+		tempTweet.Retweets = tweet_metadata_temp.Retweets
+		tweets = append(tweets, tempTweet)
 	}
-	if err == nil {
+	if err == nil && len(tweets) != 0 {
 		fmt.Println("Cached Data: ")
-		return &tweet, nil
+		return &tweets, nil
 	}
 
-	result := t.db.Model(&tweet).Select("id", "username", "created_at", "like_count", "retweet_count").Where("username=?", username).Scan(&tweet)
+	result := t.db.Model(&tweets).Select("id", "username", "created_at", "like_count", "retweet_count").Where("username=?", username).Scan(&tweets)
 	if result.RowsAffected == 0 {
 		return nil, errors.New("invalid Username")
 	}
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	return &tweet, nil
+	for _, tweet := range tweets {
+		redis_tweet_key := "tweets:" + tweet.Id
+		t.redis.ZAdd(ctx, redis_user_key, redis.Z{Score: 0, Member: tweet.Id})
+		t.redis.HSet(ctx, redis_tweet_key, &tweet)
+	}
+	return &tweets, nil
 }

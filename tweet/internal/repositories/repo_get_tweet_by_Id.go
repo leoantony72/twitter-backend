@@ -8,15 +8,26 @@ import (
 	"github.com/leoantony72/twitter-backend/tweet/internal/model"
 )
 
+type TempTweet struct {
+	Likes    []string `redis:"likes"`
+	Retweets []string `redis:"retweets"`
+}
+
 func (t *TweetRepo) GetTweetById(id string) (*model.Tweets, error) {
+	tempTweet := TempTweet{}
 	tweet := model.Tweets{}
 	redis_key := "tweets:" + id
 	redis_tweet_like_key := "tweets:" + id + ":like"
-	t.redis.ZRange(ctx, redis_tweet_like_key, 0, 5)
+	redis_tweet_retweet_key := "tweets:" + id + ":retweet"
+	t.redis.ZRange(ctx, redis_tweet_like_key, 0, 5).ScanSlice(&tempTweet.Likes)
+	t.redis.ZRange(ctx, redis_tweet_retweet_key, 0, 5).ScanSlice(&tempTweet.Retweets)
+
 	ok := DoesKeyExist(t, redis_key)
 	err := t.redis.HGetAll(ctx, redis_key).Scan(&tweet)
 	fmt.Println("cached data", ok, err)
 	if ok && err == nil {
+		tweet.Likes = tempTweet.Likes
+		tweet.Retweets = tempTweet.Retweets
 		var tm time.Time
 		tm.UnmarshalText([]byte(tweet.Encoded_date))
 		tweet.CreatedAt = tm
