@@ -7,7 +7,7 @@ type Tweets struct {
 	Username     string    `json:"user_id" gorm:"type:text REFERENCES users(username)" redis:"username"`
 	Content      string    `json:"tweet_content" gorm:"type:varchar(250);not null" redis:"content"`
 	CreatedAt    time.Time `json:"created_at" gorm:"not null" `
-	Encoded_date string    `redis:"created_at"`
+	Encoded_date string    `redis:"created_at" json:"-"`
 	LikeCount    int       `json:"like_count" gorm:"type:int;default:0" redis:"like_count"`
 	RetweetCount int       `json:"retweet_count" gorm:"type:int;default:0" redis:"retweet_count"`
 }

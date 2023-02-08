@@ -30,6 +30,6 @@ func (t *TweetRepo) GetTweetById(id string) (*model.Tweets, error) {
 	encoded_date, _ := tweet.CreatedAt.MarshalText()
 	tweet.Encoded_date = string(encoded_date)
 	t.redis.HSet(ctx, redis_key, &tweet)
-	t.redis.ExpireAt(ctx, redis_key, time.Now().Add(time.Second*20))
+	// t.redis.ExpireAt(ctx, redis_key, time.Now().Add(time.Second*20))
 	return &tweet, nil
 }
