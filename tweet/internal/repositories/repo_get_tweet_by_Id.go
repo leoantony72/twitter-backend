@@ -11,6 +11,8 @@ import (
 func (t *TweetRepo) GetTweetById(id string) (*model.Tweets, error) {
 	tweet := model.Tweets{}
 	redis_key := "tweets:" + id
+	redis_tweet_like_key := "tweets:" + id + ":like"
+	t.redis.ZRange(ctx, redis_tweet_like_key, 0, 5)
 	ok := DoesKeyExist(t, redis_key)
 	err := t.redis.HGetAll(ctx, redis_key).Scan(&tweet)
 	fmt.Println("cached data", ok, err)

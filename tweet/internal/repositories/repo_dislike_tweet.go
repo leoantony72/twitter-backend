@@ -8,9 +8,9 @@ import (
 )
 
 func (t *TweetRepo) DislikeTweet(like model.Like) error {
-	// like := model.Like{}
-	// like.TweetId = id
-	// like.Username = user
+	redis_tweet_like_key := "tweets:" + like.TweetId + ":like"
+	redis_tweet_key := "tweets:" + like.TweetId
+	
 	result := t.db.Model(&like).Where("tweet_id=? AND username=?", like.TweetId, like.Username).Delete(like.TweetId)
 	if result.RowsAffected == 0 {
 		return errors.New("you have not liked the tweet")
@@ -23,5 +23,7 @@ func (t *TweetRepo) DislikeTweet(like model.Like) error {
 	if result.Error != nil {
 		return result.Error
 	}
+	t.redis.ZRem(ctx, redis_tweet_like_key, like.Username)
+	t.redis.HIncrBy(ctx, redis_tweet_key, "like_count", -1)
 	return nil
 }

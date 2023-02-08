@@ -4,13 +4,16 @@ import (
 	"errors"
 
 	"github.com/leoantony72/twitter-backend/tweet/internal/model"
+	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
 func (t *TweetRepo) LikeTweet(like model.Like) error {
-	// like := model.Like{}
-	// like.TweetId = id
-	// like.Username = user
+	redis_tweet_key := "tweets:" + like.TweetId
+	redis_tweet_like_key := "tweets:" + like.TweetId + ":like"
+	t.redis.ZAdd(ctx, redis_tweet_like_key, redis.Z{Score: 0, Member: like.Username})
+	t.redis.HIncrBy(ctx, redis_tweet_key, "like_count", 1)
+
 	result := t.db.Model(&like).Create(&like)
 	if result.RowsAffected == 0 {
 		return errors.New("invalid Tweet ID")
