@@ -15,8 +15,15 @@ func (t *TweetRepo) DeleteTweet(id, user string) error {
 	if result.Error != nil {
 		return result.Error
 	}
-	redis_key := "tweets:" + tweet.Id + ":*"
-	iter := t.redis.Scan(ctx, 0, redis_key, 0).Iterator()
+	tweet.Id = id
+	tweet.Username = user
+	redis_key := "tweets:" + tweet.Id
+	redis_key_metadata := "tweets:" + tweet.Id + ":*"
+	redis_user_store_tweets_key := "users:" + tweet.Username + ":tweets"
+	t.redis.Del(ctx, redis_key)
+	// fmt.Println(err)
+	t.redis.ZRem(ctx, redis_user_store_tweets_key, &tweet)
+	iter := t.redis.Scan(ctx, 0, redis_key_metadata, 0).Iterator()
 	for iter.Next(ctx) {
 		t.redis.Del(ctx, iter.Val())
 	}

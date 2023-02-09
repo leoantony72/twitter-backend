@@ -13,6 +13,7 @@ func (t *TweetRepo) GetTweetByUser(username string) (*[]model.Tweets, error) {
 	tempTweet := model.Tweets{}
 	tweet_metadata_temp := TempTweet{}
 	tweets := []model.Tweets{}
+	tweet := model.Tweets{}
 	tweet_ids := []string{}
 
 	redis_user_key := "users:" + username + ":tweets"
@@ -38,9 +39,10 @@ func (t *TweetRepo) GetTweetByUser(username string) (*[]model.Tweets, error) {
 		return &tweets, nil
 	}
 
-	result := t.db.Model(&tweets).Select("id", "username", "created_at", "like_count", "retweet_count").Where("username=?", username).Scan(&tweets)
+	result := t.db.Model(&tweets).Select("id", "username", "content", "created_at", "like_count", "retweet_count").Where("username=?", username).Scan(&tweets)
+	fmt.Println(tweet)
 	if result.RowsAffected == 0 {
-		return nil, errors.New("invalid Username")
+		return nil, errors.New("invalid Username or User has not tweeted")
 	}
 	if result.Error != nil {
 		return nil, result.Error
