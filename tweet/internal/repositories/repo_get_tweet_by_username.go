@@ -11,28 +11,30 @@ import (
 
 func (t *TweetRepo) GetTweetByUser(username string) (*[]model.Tweets, error) {
 	tempTweet := model.Tweets{}
-	tweet_metadata_temp := TempTweet{}
 	tweets := []model.Tweets{}
 	tweet := model.Tweets{}
 	tweet_ids := []string{}
-
+	
 	redis_user_key := "users:" + username + ":tweets"
 	t.redis.ZRange(ctx, redis_user_key, 0, 10).ScanSlice(&tweet_ids)
 	var err error
 	var tm time.Time
 	for _, id := range tweet_ids {
+		// tweet_metadata_temp := TempTweet{}
+		fmt.Println(id)
 		redis_tweet_key := "tweets:" + id
 		err = t.redis.HGetAll(ctx, redis_tweet_key).Scan(&tempTweet)
 		tm.UnmarshalText([]byte(tempTweet.Encoded_date))
 		tempTweet.CreatedAt = tm
 
-		redis_tweet_like_key := "tweets:" + id + ":like"
-		redis_tweet_retweet_key := "tweets:" + id + ":retweet"
-		t.redis.ZRange(ctx, redis_tweet_like_key, 0, 5).ScanSlice(&tweet_metadata_temp.Likes)
-		t.redis.ZRange(ctx, redis_tweet_retweet_key, 0, 5).ScanSlice(&tweet_metadata_temp.Retweets)
-		tempTweet.Likes = tweet_metadata_temp.Likes
-		tempTweet.Retweets = tweet_metadata_temp.Retweets
+		// redis_tweet_like_key := "tweets:" + id + ":like"
+		// redis_tweet_retweet_key := "tweets:" + id + ":retweet"
+		// t.redis.ZRange(ctx, redis_tweet_like_key, 0, 5).ScanSlice(&tweet_metadata_temp.Likes)
+		// t.redis.ZRange(ctx, redis_tweet_retweet_key, 0, 5).ScanSlice(&tweet_metadata_temp.Retweets)
+		// tempTweet.Likes = tweet_metadata_temp.Likes
+		// tempTweet.Retweets = tweet_metadata_temp.Retweets
 		tweets = append(tweets, tempTweet)
+		fmt.Println("Cached Data fo sure")
 	}
 	if err == nil && len(tweets) != 0 {
 		fmt.Println("Cached Data: ")
@@ -52,5 +54,6 @@ func (t *TweetRepo) GetTweetByUser(username string) (*[]model.Tweets, error) {
 		t.redis.ZAdd(ctx, redis_user_key, redis.Z{Score: 0, Member: tweet.Id})
 		t.redis.HSet(ctx, redis_tweet_key, &tweet)
 	}
+	fmt.Println("DATABASE DATA")
 	return &tweets, nil
 }

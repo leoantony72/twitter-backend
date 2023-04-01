@@ -14,7 +14,7 @@ func (t *TweetRepo) LikeTweet(like model.Like) error {
 
 	result := t.db.Model(&like).Create(&like)
 	if result.RowsAffected == 0 {
-		return errors.New("invalid Tweet ID")
+		return errors.New("invalid Tweet ID or Already Liked")
 	}
 	if result.Error != nil {
 		return result.Error
