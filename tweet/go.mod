@@ -9,6 +9,7 @@ require (
 	github.com/redis/go-redis/v9 v9.0.2
 	github.com/segmentio/ksuid v1.0.4
 	github.com/spf13/viper v1.15.0
+	github.com/streadway/amqp v1.0.0
 	gorm.io/driver/postgres v1.4.6
 	gorm.io/gorm v1.24.3
 )

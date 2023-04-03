@@ -3,8 +3,12 @@ package repositories
 import (
 	// "time"
 
+	"encoding/json"
+
 	"github.com/leoantony72/twitter-backend/tweet/internal/model"
+	"github.com/leoantony72/twitter-backend/tweet/pkg"
 	"github.com/redis/go-redis/v9"
+	"github.com/streadway/amqp"
 )
 
 func (t *TweetRepo) CreateTweet(tweet model.Tweets) error {
@@ -20,5 +24,16 @@ func (t *TweetRepo) CreateTweet(tweet model.Tweets) error {
 	t.redis.HSet(ctx, redis_key, &tweet)
 	t.redis.ZAdd(ctx, user_redis_key, redis.Z{Score: 0, Member: tweet.Id})
 	// t.redis.ExpireAt(ctx, redis_key, time.Now().Add(time.Second*20))
+
+	data, err := json.Marshal(tweet)
+	if err != nil {
+		return err
+	}
+
+	ExchName := pkg.GetEnv("EXCHNAME")
+	t.mq.Publish(ExchName, "", false, false, amqp.Publishing{
+		ContentType: "text/plain",
+		Body:        []byte(data),
+	})
 	return nil
 }

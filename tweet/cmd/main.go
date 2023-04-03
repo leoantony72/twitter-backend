@@ -15,7 +15,8 @@ func main() {
 	r := gin.Default()
 	db := database.StartPostgres()
 	redis:=database.StartRedis()
-	repo := repositories.NewTweetRepo(db,redis)
+	MQ:=database.StartMQ()
+	repo := repositories.NewTweetRepo(db,redis,MQ)
 	service := services.NewTweetService(repo)
 
 	middleware := middleware.NewTweetMiddleware(service)

@@ -30,6 +30,14 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - db:/var/lib/postgresql/data  
+      - db:/var/lib/postgresql/data
+  rabbit:
+      image: "rabbitmq:3-management-alpine"
+      container_name: "testmq"
+      ports: 
+        - 5672:5672
+        - 15672:15672
+      volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/      
 volumes:
   db:
