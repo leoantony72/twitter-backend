@@ -16,6 +16,11 @@ func NewTimelineHandler(s ports.TimelineService, m *middleware.TimelineMiddlewar
 	}
 	//service health endpoint
 	r.GET("/check", handler.Check)
+	timeline := r.Group("/timeline")
+	{
+
+		timeline.GET("/home", m.Authorization(), handler.Timeline)
+	}
 
 	return handler
 }

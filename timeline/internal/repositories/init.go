@@ -9,6 +9,7 @@ import (
 )
 
 var ctx = context.Background()
+const Redis_Timeline_key = "user:" + "%s" + ":timeline"
 
 type TimelineRepo struct {
 	db    *gorm.DB
