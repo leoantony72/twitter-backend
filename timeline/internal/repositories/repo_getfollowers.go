@@ -4,6 +4,7 @@ import "github.com/leoantony72/twitter-backend/timeline/internal/model"
 
 type TempUserFollows struct {
 	Followers []string `redis:"followers"`
+	Followings []string `redis:"following"`
 }
 
 func (t *TimelineRepo) GetFollowers(username string) []string {

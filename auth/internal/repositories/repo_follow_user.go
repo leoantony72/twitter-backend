@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"strconv"
+
 	"github.com/leoantony72/twitter-backend/auth/internal/model"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
@@ -31,9 +33,18 @@ func (u *UserPostgresRepo) FollowUser(follow model.User_followers) error {
 	redis_followee_key := "users:" + follow.Followee + ":follower_count"
 	u.redis.IncrBy(ctx, redis_client_key, 1)
 	u.redis.IncrBy(ctx, redis_followee_key, 1)
-	// u.redis.ExpireAt(ctx, hredis_client_key, time.Now().Add(time.Second*10))
-	// u.redis.HIncrBy(ctx, hredis_followee_key, "followers", 1)
-	// u.redis.ExpireAt(ctx, hredis_followee_key, time.Now().Add(time.Second*10))
+
+	val, errs := u.redis.Get(ctx, redis_followee_key).Result()
+	if errs != nil {
+		return errs
+	}
+
+	value, _ := strconv.Atoi(val)
+	if value > 10 {
+		//add followee to client's celebrity key
+		celebritykey := "users:" + follow.Followee + ":celebrity"
+		u.redis.Set(ctx, celebritykey, "true",0)
+	}
 
 	return err.Error
 }

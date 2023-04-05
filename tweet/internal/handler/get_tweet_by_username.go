@@ -1,4 +1,9 @@
+//@@ DEPRECATED
+//@ Moved to Timeline Service In "/timeline/user"
+
+
 package handler
+
 
 import (
 	"github.com/gin-gonic/gin"

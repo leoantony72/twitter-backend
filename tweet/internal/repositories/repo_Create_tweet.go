@@ -4,6 +4,7 @@ import (
 	// "time"
 
 	"encoding/json"
+	"time"
 
 	"github.com/leoantony72/twitter-backend/tweet/internal/model"
 	"github.com/leoantony72/twitter-backend/tweet/pkg"
@@ -22,7 +23,12 @@ func (t *TweetRepo) CreateTweet(tweet model.Tweets) error {
 	encoded_date, _ := tweet.CreatedAt.MarshalText()
 	tweet.Encoded_date = string(encoded_date)
 	t.redis.HSet(ctx, redis_key, &tweet)
-	t.redis.ZAdd(ctx, user_redis_key, redis.Z{Score: 0, Member: tweet.Id})
+	jsonData, err := json.Marshal(tweet)
+	if err != nil {
+		return err
+	}
+	date := time.Now().Unix()
+	t.redis.ZAdd(ctx, user_redis_key, redis.Z{Score: float64(date), Member: jsonData})
 	// t.redis.ExpireAt(ctx, redis_key, time.Now().Add(time.Second*20))
 
 	data, err := json.Marshal(tweet)

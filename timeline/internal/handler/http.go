@@ -20,6 +20,7 @@ func NewTimelineHandler(s ports.TimelineService, m *middleware.TimelineMiddlewar
 	{
 
 		timeline.GET("/home", m.Authorization(), handler.Timeline)
+		timeline.GET("/user", m.Authorization(), handler.UserTimeline)
 	}
 
 	return handler
