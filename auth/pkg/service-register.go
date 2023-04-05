@@ -14,7 +14,9 @@ import (
 // }
 
 func RegisterService() error {
-	client, err := api.NewClient(&api.Config{})
+	config := api.DefaultConfig()
+	config.Address = "http://service_register:8500"
+	client, err := api.NewClient(config)
 	if err != nil {
 		fmt.Println(err)
 		return err

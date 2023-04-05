@@ -11,14 +11,18 @@ services:
     container_name: "tw_service_register"
     image: consul:latest
     ports:
-      - "8500:8500" 
+      - "8500:8500"
+    logging:
+      driver: none  
   redis:
     container_name: "tw_redis"
     image: redis:alpine
-    ports: 
+    ports:
       - "6379:6379"
     volumes:
       - db:/var/lib/redis/data
+    logging:
+      driver: none
   database:
     container_name: "tw_database"
     image: postgres:12.13-alpine
@@ -31,13 +35,29 @@ services:
       - 5432:5432
     volumes:
       - db:/var/lib/postgresql/data
+    logging:
+      driver: none  
   rabbit:
-      image: "rabbitmq:3-management-alpine"
-      container_name: "testmq"
-      ports: 
-        - 5672:5672
-        - 15672:15672
-      volumes:
-        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/      
+    image: "rabbitmq:3-management-alpine"
+    container_name: "testmq"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+    logging:
+      driver: none  
+  auth:
+    build: ./auth
+    container_name: tw_auth
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+      - redis  
+networks:
+  default:
+    external:
+      name: Twitter
 volumes:
   db:
