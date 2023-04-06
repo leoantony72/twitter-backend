@@ -7,7 +7,7 @@ import (
 )
 
 func (t *TimelineHandler) UserTimeline(c *gin.Context) {
-	user := c.Value("username").(string)
+	user := c.Query("username")
 	Tstart := c.Query("start")
 	start, err := strconv.Atoi(Tstart)
 	if err != nil {
