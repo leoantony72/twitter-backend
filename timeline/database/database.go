@@ -9,7 +9,7 @@ import (
 )
 
 func StartPostgres() *gorm.DB {
-	dbUrl := "postgres://pg:pass@localhost:5432/twitter"
+	dbUrl := "postgres://pg:pass@database:5432/twitter"
 
 	db, err := gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
 	if err != nil {

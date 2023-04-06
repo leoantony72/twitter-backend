@@ -39,7 +39,7 @@ services:
       driver: none  
   rabbit:
     image: "rabbitmq:3-management-alpine"
-    container_name: "testmq"
+    container_name: "tw_mq"
     ports:
       - 5672:5672
       - 15672:15672
@@ -50,11 +50,38 @@ services:
   auth:
     build: ./auth
     container_name: tw_auth
+    restart: always
     ports:
       - 8080:8080
     depends_on:
       - database
       - redis  
+      - service_register
+      - lb
+  tweet:
+    build: ./tweet
+    container_name: tw_tweet
+    restart: always
+    ports:
+      - 8090:8090
+    depends_on:
+      - database
+      - redis  
+      - service_register
+      - lb
+      - rabbit
+  timeline:
+    build: ./timeline
+    container_name: tw_timeline
+    restart: always
+    ports:
+      - 8100:8100
+    depends_on:
+      - database
+      - redis  
+      - service_register
+      - lb
+      - rabbit
 networks:
   default:
     external:
