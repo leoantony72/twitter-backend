@@ -61,7 +61,7 @@ JWTs so it have an private and a public key. private key will be used for creati
 | POST   | /tweet/id/:id/retweet | Retweet a tweet       |
 | DELETE | /tweet/id/:id/retweet | del a Retweet         |
 
-## Tweet
+## Timeline
 
 &nbsp;
 
