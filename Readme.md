@@ -3,6 +3,14 @@
 This is a Twitter-Backend side project written in Golang along with
 database like PostgreSQL and Redis, and RabbitMQ as message Queue.
 
+# Docker Build
+
+```bash
+docker-compose up // in the root dir
+```
+
+<b>Only the logs of services are outputed rest are disabled in docker-compose file</b>
+
 # Authentication
 
 This API uses JWT (JSON Web Tokens) for authentication. When a user logs in, the API generates a JWT containing the user's id, which is used to authenticate all subsequent requests. I have usen Asymmetric
