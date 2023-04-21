@@ -6,7 +6,11 @@ database like PostgreSQL and Redis, and RabbitMQ as message Queue.
 # Docker Build
 
 ```bash
-docker-compose up // in the root dir
+docker network create Twitter
+```
+
+```bash
+docker-compose up -d
 ```
 
 <b>Only the logs of services are outputed rest are disabled in docker-compose file</b>
