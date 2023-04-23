@@ -3,6 +3,8 @@
 This is a Twitter-Backend side project written in Golang along with
 database like PostgreSQL and Redis, and RabbitMQ as message Queue.
 
+[Article explaining the internals:](https://medium.com/@leoantony102/how-i-made-twitter-back-end-57addbaa14f5)
+
 # Docker Build
 
 ```bash
