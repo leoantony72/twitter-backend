@@ -1,0 +1,25 @@
+name: Twitter App CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Test build Auth Microservice
+      run: docker build . --file services/auth/Dockerfile --tag twitter-auth:$(date +%s)
+      
+    - name: Test build Timeline Microservice
+      run: docker build . --file services/timeline/Dockerfile --tag twitter-timeline:$(date +%s)
+      
+    - name: Test build Timeline Microservice
+      run: docker build . --file services/tweet/Dockerfile --tag twitter-tweet:$(date +%s)
+      
