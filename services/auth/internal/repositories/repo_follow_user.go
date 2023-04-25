@@ -4,7 +4,6 @@ import (
 	"strconv"
 
 	"github.com/leoantony72/twitter-backend/auth/internal/model"
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -43,7 +42,7 @@ func (u *UserPostgresRepo) FollowUser(follow model.User_followers) error {
 	if value > 10 {
 		//add followee to client's celebrity key
 		celebritykey := "users:" + follow.Followee + ":celebrity"
-		u.redis.Set(ctx, celebritykey, "true",0)
+		u.redis.Set(ctx, celebritykey, "true", 0)
 	}
 
 	return err.Error

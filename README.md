@@ -22,7 +22,7 @@ docker-compose up -d
 This API uses JWT (JSON Web Tokens) for authentication. When a user logs in, the API generates a JWT containing the user's id, which is used to authenticate all subsequent requests. I have usen Asymmetric
 JWTs so it have an private and a public key. private key will be used for creating tokens and public key will be used for verifying the tokens. The Public key is shared by other service for authentication.
 
-![Asymmetric JWT key](img/slave_jwt_key.png)
+![Asymmetric JWT key](docs/img/slave_jwt_key.png)
 
 # Endpoints
 
@@ -93,7 +93,7 @@ JWTs so it have an private and a public key. private key will be used for creati
 As you know this project in microservice architecture, So each service is independent.
 Tweet service and Timeline service is connected through Message Queue (RabbitMq). Tweet Service sends the new tweets to Timeline Service and Timleine service pushes these to respective tweet authors followers timeline If authors follower count is less than 10(I know it's very low but for testing this is fine). If it's above 10 followers would fetch tweet when they load the timeline.
 
-![Tweet-Timleine link by Mq](img/tweet-timeline.png)
+![Tweet-Timleine link by Mq](docs/img/tweet-timeline.png)
 
 &nbsp;
 
