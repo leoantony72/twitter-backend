@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"context"
+	"github.com/redis/go-redis/v9"
 
 	"github.com/leoantony72/twitter-backend/auth/internal/ports"
 	"gorm.io/gorm"

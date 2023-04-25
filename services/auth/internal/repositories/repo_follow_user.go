@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"github.com/redis/go-redis/v9"
 	"strconv"
 
 	"github.com/leoantony72/twitter-backend/auth/internal/model"
