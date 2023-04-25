@@ -1,2 +1,2 @@
 public.pem
-auth/private.pem
+services/auth/private.pem

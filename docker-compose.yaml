@@ -4,7 +4,7 @@ services:
     container_name: "tw_lb"
     restart: always
     build:
-      context: ./haproxy
+      context: haproxy
     ports:
       - 80:80
   service_register:
@@ -44,11 +44,11 @@ services:
       - 5672:5672
       - 15672:15672
     volumes:
-      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - db:/var/lib/rabbitmq/
     logging:
       driver: none  
   auth:
-    build: ./auth
+    build: services/auth
     container_name: tw_auth
     restart: always
     ports:
@@ -59,7 +59,7 @@ services:
       - service_register
       - lb
   tweet:
-    build: ./tweet
+    build: services/tweet
     container_name: tw_tweet
     restart: always
     ports:
@@ -71,7 +71,7 @@ services:
       - lb
       - rabbit
   timeline:
-    build: ./timeline
+    build: services/timeline
     container_name: tw_timeline
     restart: always
     ports:

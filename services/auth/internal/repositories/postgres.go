@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/leoantony72/twitter-backend/auth/internal/ports"
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 

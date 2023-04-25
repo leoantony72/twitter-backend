@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/leoantony72/twitter-backend/auth/internal/model"
-	"github.com/redis/go-redis/v9"
 )
 
 type TempUserFollows struct {
