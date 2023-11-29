@@ -9,7 +9,7 @@ services:
       - 80:80
   service_register:
     container_name: "tw_service_register"
-    image: consul:latest
+    image: consul:1.15.4
     ports:
       - "8500:8500"
     logging:
